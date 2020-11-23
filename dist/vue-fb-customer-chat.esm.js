@@ -36,6 +36,24 @@ function initFbSdk(options) {
       const defaults = { cookie: true, xfbml: true, version: 'v5.0' };
       options = { ...defaults, ...options };
       window.FB.init(options);
+      // console.log(options)
+      // console.log(window.FB.Event)
+      window.FB.Event.subscribe('customerchat.load', () => {
+        console.log('fb loaded, hiding')
+        FB.CustomerChat.hide()
+        FB.CustomerChat.hideDialog()
+      })
+      window.FB.Event.subscribe('customerchat.dialogShow', () => {
+        console.log('dialog show, hiding')
+        FB.CustomerChat.hide()
+        FB.CustomerChat.hideDialog()
+      })
+
+
+      window.FB.Event.subscribe('customerchat.show', () => {
+        console.log('fb showed')
+      })
+
       resolve();
     };
   })
@@ -95,6 +113,9 @@ const VueFbCustomerChat = {
         }
       }
     });
+
+    console.log('here')
+    console.log(Vue.fbCustomerChat)
 
     Vue.mixin({
       mounted() {
